@@ -1,0 +1,567 @@
+---
+title:  'Microkernels'
+subtitle: "ME 2150 HACPS"
+aspectratio: 169
+---
+
+# What are Microkernels?
+
+- Minimalist operating system kernels designed to handle core functions
+    - Inter-process communication (IPC)
+    - Basic scheduling
+    - Low-level hardware abstraction
+- Delegates functionality like device drivers, file systems, and networking to user-space processes.
+
+---
+
+# Advantages
+
+- **Modularity**: User-space components are isolated.
+- **Fault Isolation**: Failures in one component are less likely to crash the system.
+- **Reliability**: Smaller codebase reduces vulnerabilities.
+- **Security & Maintainability**: Separation of concerns enhances system robustness.
+
+---
+
+# Applications
+
+- Embedded systems
+- Real-time environments
+- Safety-critical domains
+- Scenarios requiring high reliability and modularity
+
+---
+
+#   
+
+![Structure of monolithic and microkernel-based operating systems](source/images/OS-structure.png){width=80%}
+
+---
+
+# Historical Context
+
+- **Early Kernels**: Monolithic design, tightly coupled to hardware, prioritizing efficiency.
+- **Challenges**
+    - System-wide failures from minor errors.
+    - Difficult debugging and updates.
+    - Security vulnerabilities from large codebases.
+
+---
+
+# Emergence of Microkernels
+
+- 1970s: Academic exploration of modularity and minimalism.
+    - *RC 4000 system*: Introduced message passing for component communication.
+- 1980s: Practical implementations like the **Mach microkernel** showcased
+    - Modularity
+    - Scalability
+    - Portability
+
+---
+
+# Debate: Monolithic vs. Microkernel
+
+- **Monolithic Kernels**
+  - High performance, tightly integrated.
+  - Risk of system-wide failures, difficult updates.
+
+- **Microkernels**
+  - Enhanced modularity and fault tolerance.
+  - Performance trade-offs due to frequent IPC.
+
+Modern Perspective
+
+- Hardware advancements and optimization techniques mitigate performance concerns.
+- Microkernels regain attention for systems requiring **security, scalability, and fault tolerance**.
+
+---
+
+# Key Principles
+
+- **Simplicity**: Reduces the kernel to essential functions
+    - **Inter-process communication (IPC)**
+    - **Basic scheduling**
+    - **Hardware abstraction**
+- **Reliability**: Isolates faults, ensuring system stability even if one service fails.
+- **Modularity**
+    - Separates services into independent user-space processes.
+    - Simplifies testing, development, and updates of individual components.
+
+---
+
+# Advantages Over Monolithic Kernels
+
+- **Minimalist Design**
+    - Reduces kernel size and complexity.
+    - Delegates services like networking and file management to user-space processes.
+- **Enhanced Security & Stability**
+    - Isolates failures to specific components.
+    - Limits the attack surface by keeping the kernel small.
+- **Structured Communication**
+    - Relies on IPC mechanisms for interaction between kernel and user-space services.
+    - Improves flexibility and fault tolerance.
+
+Trade-Offs
+
+- **Performance Overhead**:  IPC introduces slight delays compared to tightly integrated monolithic kernels.
+- **Benefit**: Greater modularity, flexibility, and fault tolerance outweighs performance concerns in secure, dynamic environments.
+
+---
+
+| Assessment      |​ Description     |​ Number​ of CVEs | Fraction​ of CVEs | Cum-fraction​ |
+|-----------------|-----------------|----------------|------------------|--------------|
+| Eliminated​      | Yes​             | 33​             | 29 %             | 29 %​         |
+| Eliminated with verification     | Formal verification         | 12​             | 11 %​             | 40 %​         |  
+| Strongly mitigated       | Availability    | 19​             | 17 %​             | 57 %​         |
+| Weakly mitigated         | Confidentiality, Integrity | 43​             | 38 %​             | 96 %​         |
+| Unaffected​      |                 | 5              ​| 4 %​              | 100 %​        |
+| Total​           |                 | 112​            | 100 %​            | 100 %​        |
+
+---
+
+# Mach Microkernel
+
+A landmark in microkernel design, emphasizing minimalism and modularity
+
+Features
+
+- Kernel handles only basic services.
+- File systems and device drivers moved to **user-space processes**.
+- Advanced **IPC mechanisms** for component interaction.
+- Support for **multi-threading** and **distributed computing**.
+
+Legacy
+
+- Influenced systems like NeXTSTEP and macOS
+- Became a platform for research and innovation in operating systems.
+
+Significance
+
+- Demonstrated modularity and extensibility.
+- Validated microkernel concepts in both research and commercial contexts.
+
+---
+
+# MINIX
+
+- Developed by Andrew S. Tanenbaum as an educational tool.
+- Designed to teach operating system concepts with simplicity andclear code structure
+
+Impact
+
+- Popular in academic and research settings.
+- Inspired **Linus Torvalds** in creating the **Linux kernel** (monolithic design).
+
+Significance
+
+- Raised awareness of **microkernel principles**.
+- Highlighted the importance of modularity in operating systems.
+
+---
+
+# QNX
+
+- A commercially successful microkernel-based OS.
+- Renowned for **Reliability, Scalability, and Real-time performance**
+
+Applications
+
+- Embedded systems
+  - Automotive
+  - Medical
+  - Industrial control systems
+
+Significance
+
+- Fault isolation and efficient resource management.
+- Ideal for **safety-critical environments**.
+- Demonstrated the viability of microkernels in industry.
+
+---
+
+# L4 Microkernel
+
+- Developed by Jochen Liedtke in the mid-1990s.
+- Addressed performance challenges of earlier microkernels like **Mach**.
+
+Key Innovations
+
+- Optimized, minimalist architecture.
+- Efficient IPC and reduced context-switching overhead.
+- Achieved performance levels comparable to monolithic kernels.
+
+Legacy
+
+- Revitalized interest in microkernels.
+- Foundation for security-focused systems and real-time applications
+
+Significance:  Proved microkernels can balance **efficiency** and **flexibility**.
+
+---
+
+# seL4 Microkernel
+
+- Developed as part of the **L4 family** at NICTA in the late 2000s.
+- First **formally verified microkernel**.
+
+Key Features
+
+- **Mathematical proof** of freedom from
+    - Buffer overflows
+    - Null-pointer dereferences
+- Combines high assurance and practical performance
+
+Applications: Aerospace, defense, critical infrastructure
+
+Significance
+
+- New benchmark for secure system design.
+- Showcases the potential of microkernels for **robust, high-assurance systems**.
+
+---
+
+# Performance Challenges of Microkernels
+
+Key Criticism
+
+- **Performance Overhead** compared to monolithic kernels
+- **Inter-process communication (IPC)** introduces latency.
+- **Frequent context switching** adds overhead.
+- Monolithic kernels enable faster, direct communication within kernel space.
+
+Impact
+
+- Early microkernels struggled in high I/O and processing-demand scenarios.
+- Performance gaps made them less appealing for general-purpose systems.
+
+Modern Improvements
+
+- Advancements in IPC optimization, hardware capabilities, software design
+- Modern microkernels like **L4** demonstrate performance comparable to monolithic kernels.
+
+---
+
+
+# Unique Advantages in High-Assurance Systems
+
+- **Reliability & Fault Tolerance**
+  - Isolates services to prevent cascading failures in distributed systems.
+  - Ideal for critical infrastructure, defense, and financial systems.
+- **Security in Cloud Environments**
+  - Secure multi-tenancy and strict data integrity.
+  - Modularity enables sandboxing of workloads and tenant separation.
+
+---
+
+# Leveraging Next-Generation Hardware
+
+- **Multi-core Processors**
+  - Critical applications run isolated on dedicated cores.
+  - Ensures faults or attacks do not impact other processes.
+- **Hardware-Assisted Virtualization**
+  - Strong isolation barriers with enhanced efficiency.
+- **Support for Hardware Security Features**
+  - Secure enclaves and trusted execution environments protect sensitive data.
+
+# Hybrid Architectures for High Assurance
+
+- **Combination of Strengths**
+  - Security and reliability of microkernels.
+  - Performance benefits of monolithic kernels.
+- **Applications**
+  - Autonomous vehicles, avionics, medical devices.
+- **Formal Verification**
+  - Guarantees correctness of isolated components.
+  - Aligns with high-assurance standards.
+
+---
+
+# Vision
+
+Microkernels enable secure, scalable, and resilient infrastructure, forming the foundation for next-generation high-assurance computing in safety-critical domains.
+
+---
+
+# Kernel and User Mode in Microkernel Systems
+
+## Key Concepts
+- **Kernel Mode**
+  - Reserved for essential, privileged operations
+    - **Inter-process communication (IPC)**
+    - **Thread scheduling**
+    - **Basic memory management**
+  - Minimal functionality reduces complexity and the attack surface.
+  - Ensures system reliability by limiting the impact of kernel-level faults.
+
+- **User Mode**
+  - Hosts most operating system services
+    - File systems, device drivers, and networking.
+  - Services run with restricted privileges in isolated address spaces.
+  - Faults in one service do not affect the entire system.
+
+---
+
+## Advantages of Separation
+- **Modularity**
+  - Non-essential services are decoupled from the kernel.
+- **Security**
+  - Reduced attack surface due to streamlined kernel mode.
+- **Fault Isolation**
+  - Service crashes are contained within user mode processes.
+
+## Trade-Off
+- **Performance Overhead**
+  - Frequent context switching between user and kernel modes.
+  - Offset by gains in security, reliability, and maintainability.
+
+---
+
+# Microkernel Architecture
+
+## Key Features
+- **Minimal Core System**
+  - Essential functions only
+    - **Memory management**
+    - **Process scheduling**
+    - **Inter-process communication (IPC)**
+- **Modular Design**
+  - Additional services (e.g., device drivers, file systems, networking) run in user space.
+  - Communicate with the microkernel via well-defined interfaces.
+
+---
+
+## Advantages
+- **Flexibility & Extensibility**
+  - Features can be added/modified without altering the core.
+  - Simplifies maintenance and adaptability.
+- **Security & Fault Isolation**
+  - Module failures do not affect the entire system.
+
+## Challenges
+- **Performance Overhead**
+  - Frequent IPC can introduce latency.
+- **Complex Communication Interfaces**
+  - Requires careful design and management.
+
+---
+
+## Essential Services Provided by Microkernels
+
+- **Inter-Process Communication (IPC)**
+  - Enables efficient coordination and information exchange between processes.
+- **Memory Management**
+  - Oversees allocation, protection, and mapping of memory spaces.
+  - Ensures secure and efficient memory usage.
+- **CPU Scheduling**
+  - Allocates CPU time efficiently to threads and processes.
+  - Optimizes performance and resource utilization.
+
+Microkernel architecture balances modularity, security, and extensibility, making it ideal for dynamic, scalable systems.
+
+---
+
+# Inter-Process Communication (IPC)
+
+## What is IPC?
+- Mechanisms enabling processes to
+  - **Exchange information**
+  - **Coordinate actions**
+- Facilitates communication between
+  - **User-space services and the kernel**
+  - Separate components (e.g., file systems, device drivers).
+
+---
+
+## Importance of IPC in Microkernels
+- **Enables Modularity**
+  - User-space services interact seamlessly with the kernel.
+- **Enhances Stability**
+  - Independent operation of components reduces system-wide failures.
+- **Supports Security**
+  - Isolated services minimize vulnerabilities.
+
+---
+
+# Message Passing in IPC
+
+## Message Passing
+- Processes exchange **structured messages**
+  - Managed by the operating system.
+  - Ensures **synchronization** and **data integrity**.
+
+## Advantages
+- **Reliability**
+  - OS-managed transfer ensures data consistency.
+- **Suitability for Distributed Systems**
+  - Effective for processes on different machines.
+
+---
+
+## Message Queues
+- Processes exchange messages **asynchronously** via a queue.
+- Advantages
+  - **Decoupling**: Sender and receiver operate independently.
+  - **Persistence**: Messages stored until retrieved.
+
+---
+
+### Key Differences: Message Passing vs. Message Queues
+| Feature              | Message Passing          | Message Queues                   |
+|----------------------|--------------------------|-----------------------------------|
+| Interaction          | Direct (sender to receiver) | Indirect (via a queue buffer)   |
+| Communication Mode   | Synchronous or asynchronous | Asynchronous by design          |
+| Storage              | Transient                | Persistent (until retrieved)     |
+| Complexity           | Simple                   | More complex, with storage management |
+| Use Cases            | Real-time, direct systems | Buffered or decoupled scenarios |
+
+---
+
+# Shared Memory in IPC
+
+## What is Shared Memory?
+- Processes access a **common memory space** for communication.
+- Eliminates data copying between processes.
+
+## Use Cases
+- Ideal for systems needing **high-speed communication**.
+
+---
+
+## Advantages
+- **High Performance**
+  - Faster communication by avoiding message transfer overhead.
+
+## Challenges
+- Requires **synchronization mechanisms** to
+  - Prevent race conditions.
+  - Avoid data corruption.
+
+---
+
+# Semaphores in IPC
+
+## What are Semaphores?
+- **Synchronization primitives**
+  - Manage access to shared resources among processes.
+
+## Functions
+- Controls the number of processes accessing a resource simultaneously.
+- Prevents race conditions and ensures **safe resource usage**.
+
+---
+
+## Applications
+- Essential in scenarios like
+  - **Shared memory segments**
+  - **Database connections**
+
+## Benefits
+- **System Stability**
+  - Prevents deadlocks and resource contention.
+- **Efficiency**
+  - Coordinates processes for optimal resource utilization.
+
+---
+
+# Pros and Cons of IPC in Microkernel Architecture
+
+## Pros
+- **Modularity**
+  - Allows components (e.g., device drivers, file systems) to operate independently in user space.
+  - Simplifies maintenance: Components can be updated or replaced without affecting the entire system.
+
+- **Parallelism**
+  - Enables multiple processes to run concurrently.
+  - Optimizes performance on modern **multi-core processors**.
+
+- **Efficient Resource Management**
+  - Kernel mediates hardware access, ensuring
+    - Fairness
+    - Prevention of conflicts.
+
+---
+
+## Cons
+- **Performance Overhead**
+  - Frequent communication between user space and kernel introduces
+    - Context switching delays.
+    - Synchronization costs.
+
+- **Security Risks**
+  - Potential for
+    - Unauthorized access to shared memory.
+    - Message queue interception.
+  - Requires robust safeguards for sensitive data.
+
+- **Complexity**
+  - Debugging and synchronization are challenging in modular systems.
+  - Risks of
+    - Race conditions.
+    - Deadlocks.
+    - Synchronization issues.
+
+---
+
+# Memory Management in Microkernels
+
+## Key Functions
+- **Allocation and Deallocation**
+  - Dynamically assigns memory to processes based on real-time needs.
+  - Optimizes resource utilization in multi-process environments.
+- **Memory Isolation**
+  - Prevents processes from interfering with each other's data or operations.
+  - Ensures stability in user-space services.
+
+---
+
+# Memory Management in Microkernels
+
+## Security Prioritization
+
+- **Access Controls**
+  - Restricts user-space services from accessing kernel memory.
+  - Protects sensitive data from unauthorized access.
+- **Error Detection**
+  - Identifies and handles issues like
+    - Buffer overflows.
+    - Invalid memory access.
+  - Preserves system integrity.
+
+## Benefits
+- Enhances **modularity** and **fault tolerance**.
+- Maintains stability and security in dynamic, multi-process systems.
+
+---
+
+# CPU Scheduling in Microkernels
+
+## Thread Management
+
+- Oversees **thread lifecycle**
+  - Creation
+  - Scheduling
+  - Termination
+- Threads enable efficient multitasking as the smallest units of execution.
+
+## Key Features
+- **Concurrency and Parallelism**
+  - Allows simultaneous or cooperative thread execution.
+  - Optimizes CPU utilization, especially in **multi-core processors**.
+- **Lightweight Design**
+  - Fast context switching.
+  - Efficient resource allocation with minimal overhead.
+
+--- 
+
+# CPU Scheduling in Microkernels
+
+## Decoupled Scheduling
+- **User-Space Flexibility**
+  - User-space services implement custom scheduling policies.
+  - No need for kernel modifications.
+- **Enhanced Modularity**
+  - Simplifies adding new features or updating scheduling logic.
+
+## Benefits
+- Optimizes performance and resource utilization.
+- Supports the microkernel’s goals of **efficiency**, **modularity**, and **adaptability**.
