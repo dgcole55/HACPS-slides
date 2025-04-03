@@ -7,6 +7,13 @@ aspectratio: 169
 header-includes:
   - \setlength{\parskip}{1em}
   - \setlength{\parindent}{0pt}
+  - \usepackage{amsfonts}
+---
+
+\begin{center}
+\includegraphics[height=0.8\textheight]{{{FIGURE_DIR}}/HARDENS.pdf}
+\end{center}
+
 ---
 
 # Digital Instrumentation & Control (DI&C)
@@ -41,18 +48,18 @@ NPP = nulcear power plant; COTS = commercial off the shelf
 
 ---
 
-# RTS Proposed Architecture Sketch
-
-\begin{center}
-\includegraphics[height=0.8\textheight]{{{FIGURE_DIR}}/rts-architecture.png}
-\end{center}
-
----
-
 # RTS Hardware
 
 \begin{center}
 \includegraphics[height=0.8\textheight]{{{FIGURE_DIR}}/rts-hardware.png}
+\end{center}
+
+---
+
+# RTS Architecture Sketch
+
+\begin{center}
+\includegraphics[height=0.8\textheight]{{{FIGURE_DIR}}/rts-architecture.png}
 \end{center}
 
 ---
@@ -96,7 +103,7 @@ actuation output)
 
 # How to get from Characteristics to Formally Verified System Properties
 
-- characteristics are **precise, semi-formal English requirements** about an amorphous system
+- characteristics are precise, **semi-formal English requirements** about an amorphous system
 - in order to understand a characteristic, we must understand its constituent terms
 - in order to verify a characteristic, we must translate in a traceable fashion semi-formal characteristics
 into semi-formal requirements, and hence to formal, checkable properties about the system
@@ -133,9 +140,27 @@ Together, Lando and FRET formed a pipeline from informal intent to formal verifi
 
 ---
 
+# Domain Engineering Model
+
+- A domain engineering model is a high-level, formal description of a domain and its properties.
+- Think of it as a glossary of concepts (nouns, verbs, adjectives, adverbs) and their relations that is formalized in a machine interpretable fashion.
+- Domain engineering models provide a semantics for requirements engineering.
+- Such mechanizations are achieved using a variety of formal methods and technologies.
+- Historically, formal methods like B and Event-B, RAISE, VDM, and Z are used for critical systems.
+- In the modern day these are augmented by formal methods and tools like Alloy, Coq, Lando, and PVS.
+- The domain engineering model for HARDENS is specified in **Lando and SysMLv2**. The background theory for the Lando is specified in Higher-Order Logic (HOL) in Coq and PVS.
+
+---
+
+# Domain Engineering Model:  Requirements using Lando
+
+\begin{center}
+\includegraphics[height=0.85\textheight]{{{FIGURE_DIR}}/rts-domain-model-ex.png}
+\end{center}
+
+---
+
 # Requirements using FRET\footnote{This entire summary is straight from "Formal Requirements Elicitation with FRET" by Giannakopoulou, et al. REFSQ-2020.}
-
-
 
 - FRET is a tool for writing, understanding, formalizing, and analyzing requirements.
 - Users write requirements in an intuitive, restricted natural language, called FRETISH, with precise, unambiguous meaning.
@@ -148,7 +173,7 @@ verification code.
 
 ---
 
-# STS FRET Editor and Realizability
+# FRET Editor and Realizability
 
 \begin{center}
 \begin{tabular}{cc}
@@ -178,26 +203,6 @@ The RTS system architecture was modeled to support structure, safety, and tracea
   - Mapping from requirements to implementation
 
 Architecture modeling provided a foundation for structured refinement and assurance.
-
----
-
-# Domain Engineering Model
-
-- A domain engineering model is a high-level, formal description of a domain and its properties.
-- Think of it as a glossary of concepts (nouns, verbs, adjectives, adverbs) and their relations that is formalized in a machine interpretable fashion.
-- Domain engineering models provide a semantics for requirements engineering.
-- Such mechanizations are achieved using a variety of formal methods and technologies.
-- Historically, formal methods like B and Event-B, RAISE, VDM, and Z are used for critical systems.
-- In the modern day these are augmented by formal methods and tools like Alloy, Coq, Lando, and PVS.
-- The domain engineering model for HARDENS is specified in **Lando and SysMLv2**. The background theory for the Lando is specified in Higher-Order Logic (HOL) in Coq and PVS.
-
----
-
-# Domain Engineering Model Example
-
-\begin{center}
-\includegraphics[height=0.85\textheight]{{{FIGURE_DIR}}/rts-domain-model-ex.png}
-\end{center}
 
 ---
 
@@ -262,6 +267,7 @@ Implemented in **SystemVerilog** and **Bluespec**, the logic was verified agains
 
 # Specifications
 
+<!--
 Specifications define **how the RTS system will meet its requirements** — describing intended behavior, structure, and responses.
 
 In the HARDENS project, specifications were developed using:
@@ -273,12 +279,10 @@ In the HARDENS project, specifications were developed using:
 
 These specifications were written in a form suitable for **formal verification**, and directly informed the development of **verifiable implementations** and **testable simulations**.
 
----
-
-# RTS Specifications
+--->
 
 \begin{center}
-\includegraphics[width=0.9\textwidth]{{{FIGURE_DIR}}/rts-specs.png}
+\includegraphics[width=\textwidth]{{{FIGURE_DIR}}/rts-specs.png}
 \end{center}
 
 ---
@@ -307,13 +311,21 @@ This multi-layer verification ensured correctness across software and hardware.
 
 ---
 
-## Behavior
+# Cryptol
+
+\begin{center}
+\includegraphics[height=\textheight]{{{FIGURE_DIR}}/rts-cryptol.png}
+\end{center}
+
+---
+
+# Behavior
 
 System behavior was expressed and simulated through:
 
-- Temporal and logical properties in **FRET**
-- Executable functional models in **Cryptol**
-- Control logic verified in C and SystemVerilog
+- Temporal and logical properties in FRET
+- Executable functional models in Cryptol
+- Control logic verified in C and **SystemVerilog**
 
 Behavioral properties were validated against expectations from the original requirements, ensuring correct responses to all relevant inputs.
 
@@ -327,7 +339,7 @@ Behavioral properties were validated against expectations from the original requ
 
 ---
 
-## Validation and Testing
+# Validation and Testing
 
 Validation strategies included:
 
@@ -372,16 +384,30 @@ All implementation artifacts were packaged with evidence of correctness, traceab
 
 ---
 
+# Equivalence and Refinement
+
+The main relationships that we specify and reason about in our RDE are equivalence and refinement.
+
+- **Equivalence** means that two artifacts are 'equal' under some formal  equivalence relation defined in terms of the underlying semantics used to describe the artifacts.
+  - Cryptol spec $\simeq$ C program
+  - C program $\simeq$ Java program
+  - LLVM bitcode $\simeq$ Verilog spec
+- Equivalence facilities reasoning about correctness across models, languages, optimizations, evolution.
+- **Refinement** means that one artifacts 'refines; another under some formal refinement relation defined in terms of the underlying
+semantics used to describe the artifacts.
+- C $\leftarrow$ ACSL $\leftarrow$ Cryptol $\leftarrow$ SysMLv2 $\leftarrow$ FRET $\leftarrow$ Lando $\leftarrow$ Markdown
+- SystemVerilog $\leftarrow$ SVA $\leftarrow$ Cryptol $\leftarrow$ SysMLv2 $\leftarrow$ FRET $\leftarrow$ etc.
+
+---
+
 ## Summary: The RTS Engineering Stack (Revised)
 
-| Layer                 | Approach Used in HARDENS RTS                   |
-|------------------------|-----------------------------------------------|
-| Requirements           | Natural language refined with Lando and FRET  |
-| Architecture           | Modeled component breakdown and control flow  |
-| Specifications         | Defined in FRET as formal, analyzable contracts |
-| Verification/Correctness | Cryptol + SAW, Frama-C, assertion checking |
-| Behavior               | Expressed in FRET and executable in Cryptol   |
-| Validation & Testing   | Simulated models, test benches, monitors      |
-| Implementation         | Verified C and HDL with evidence              |
-
-This workflow enabled end-to-end assurance through formal structure and layered verification.
+| Layer                 | Approach Used in HARDENS RTS                      |
+|------------------------|--------------------------------------------------|
+| Requirements           | Natural language refined with Lando and FRET     |
+| Architecture           | Lando and SysML                                  |
+| Specifications         | Defined in FRET as formal, analyzable contracts  |
+| Verification/Correctness | Cryptol, Frama-C                               |
+| Behavior               | Verilog                                          |
+| Validation & Testing   | Simulated models, test benches, monitors         |
+| Implementation         | Verified C and HDL with evidence                 |
