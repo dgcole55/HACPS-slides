@@ -1,0 +1,260 @@
+\documentclass{article}
+
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+\begin{document}
+
+\section{Missionaries and Cannibals}\label{missionaries-and-cannibals}
+
+Three missionaries and three cannibals must cross a river using a boat
+which can carry at most two people, under the constraint that, for both
+banks, if there are missionaries present on the bank, they cannot be
+outnumbered by cannibals (if they were, the cannibals would eat the
+missionaries). The boat cannot cross the river by itself with no people
+on board.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Some math}\label{some-math}
+
+\begin{itemize}
+
+\item
+  \(\mathcal{M}\), the set of missionaries
+\item
+  \(\mathcal{C}\), the set of cannibals
+\item
+  \(\mathcal{B} = \{ E, W \}\), the banks of the river
+\end{itemize}
+
+It is helpful to realize that everyone is the union of \(\mathcal{M}\)
+and \(\mathcal{C}\).
+
+\[\mathcal{E} = \mathcal{M} \cup \mathcal{C}\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Describing the boat and who is on each
+bank}\label{describing-the-boat-and-who-is-on-each-bank}
+
+\begin{itemize}
+
+\item
+  \(b\) is the bank where the boat is
+\end{itemize}
+
+\[b \in \mathcal{B} = \{ E, W \}\]
+
+\begin{itemize}
+
+\item
+  \(o(b)\), the other bank
+\end{itemize}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\(b\) & \(o(b)\) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(E\) & \(W\) \\
+\(W\) & \(E\) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Who is on each bank}\label{who-is-on-each-bank}
+
+\begin{itemize}
+
+\item
+  \(w\) is who is on a bank. There are wwo way to think of this:
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  \(w\) is a function from \(\mathcal{B}\) to some subset of everyone
+  \(\mathcal{M} \cup \mathcal{C}\)
+\end{enumerate}
+
+\[ w : \mathcal{B} \rightarrow  \subset \mathcal{M} \cup \mathcal{C}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+
+\item
+  \(w\) is an array indexed by \(E\) and \(W\) telling you who is on
+  each bank.
+\end{enumerate}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\(x\) & \(w(x)\) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(E\) & \(S\) \\
+\(W\) & \((\mathcal{M} \cup \mathcal{C})\setminus S\) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Is it safe}\label{is-it-safe}
+
+Let \(S\) be a subset of people on a bank of the river (presumably
+gotten from \(w\)).
+
+\begin{itemize}
+
+\item
+  The people on the bank can just be cannibals,
+\end{itemize}
+
+\[S \subseteq \mathcal{C}\]
+
+\begin{itemize}
+
+\item
+  or, the number of cannibals in \(S\) must be less than or equal to the
+  number of missionaries.
+\end{itemize}
+
+\[|S \cap C| \leq |S \cap M|\]
+
+We can write this as a function \$ \text{IsSafe} : S
+\rightarrow \text{boolean}\$.
+
+\[\text{IsSafe}(S) = \left( S \subseteq \mathcal{C} \right) \wedge ( |S \cap C| \leq |S \cap M| )\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{An initial condition}\label{an-initial-condition}
+
+Starting out - \(b = E\) - Who is on the banks
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+bank & who \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(E\) & \(\mathcal{M} \cup \mathcal{C}\) \\
+\(W\) & \(\emptyset\) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{\texorpdfstring{We want to move the people in \(S\) from bank
+\(b\) to the other bank
+\(o(b)\)}{We want to move the people in S from bank b to the other bank o(b)}}\label{we-want-to-move-the-people-in-s-from-bank-b-to-the-other-bank-ob}
+
+Let's define two things
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  After the move the new set of people \(N\) is who is on the bank minus
+  who went on the boat
+\end{enumerate}
+
+\[N = w(b) \setminus S \tag{new on this bank}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+
+\item
+  After the move the new set of people on the other bank is who is on
+  the other bank plus who went on the boat
+\end{enumerate}
+
+\[O = w(o(b)) \cup S \tag{new on other bank}\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{What is a valid move?}\label{what-is-a-valid-move}
+
+Several things must be true:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+
+\item
+  Only two people can be in the boat
+\end{enumerate}
+
+\[|S| \in \{ 1, 2 \} \tag{number in boat}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+
+\item
+  The new set of people on the bank must be safe
+\end{enumerate}
+
+\[\text{IsSafe}(N) = \text{true}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+
+\item
+  The new set of people on the other bank must be safe
+\end{enumerate}
+
+\[\text{IsSafe}(O) = \text{true}\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+
+\item
+  The boat is now on the other bank
+\end{enumerate}
+
+\[b' = o(b)\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+
+\item
+  Who is on each bank is
+\end{enumerate}
+
+\[w'(b) = N \quad \text{and} \quad w'(o(b)) = O\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{In math terms}\label{in-math-terms}
+
+\[
+\begin{array}{rl}
+\text{ValidMove(S,b)} & = \text{number in boat} \\
+    & \wedge\quad \text{IsSafe}(N) \\
+    & \wedge \quad \text{IsSafe}(O) \\
+    & \wedge \quad b' = o(b) \\
+    & \wedge \quad w'(b) = N \\
+    & \wedge \quad w'(o(b)) = O 
+\end{array}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Finally, we know that at any step, there must be some group of
+people on the bank where the canoe is that result in a valid
+move}\label{finally-we-know-that-at-any-step-there-must-be-some-group-of-people-on-the-bank-where-the-canoe-is-that-result-in-a-valid-move}
+
+\[\text{ValidNext} = \exists S \subset w(b) \; : \;  \text{ValidMove}(S,b) = \text{true}\]
+
+\end{document}
